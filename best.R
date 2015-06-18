@@ -26,10 +26,21 @@ best <- function (state, outcome) {
         stop("invalid outcome")
     }
     
-    st <- subset(measuresCSV, measuresCSV$State==state & measuresCSV[[mortalityCol]] != "Not Available", select = c("Hospital.Name", mortalityCol), drop=FALSE)
+    ## Subset our data table by given requirements
+    st <- subset(measuresCSV, 
+                 measuresCSV$State==state & measuresCSV[[mortalityCol]] != "Not Available", 
+                 select = c("Hospital.Name", mortalityCol), drop=FALSE)
+    
+    ## Turn mortality value to numeric
     st[[mortalityCol]] <- as.numeric(st[[mortalityCol]])
+    
+    ## Find our minimum mortality
     minMort <- min(st[[mortalityCol]])
+    
+    ## Select hospitals with lowest mortality and sort alphabetically
     goodHosps <- st[st[[mortalityCol]] == minMort, ]
     goodHosps <- sort(goodHosps$Hospital.Name)
+    
+    ## Return lowest mortality and first alphabetically
     return (goodHosps[1])
 }
