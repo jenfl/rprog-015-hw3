@@ -44,17 +44,19 @@ rankall <- function(outcome, num="best") {
         
         ## If num comes in as best or worst, convert it to a value
         if (num == "best") {
-            num <- 1
+            thisnum <- 1
         } else if (num == "worst") {
-            num <- length(orderedSH$Hospital.Name)
+            thisnum <- length(orderedSH$Hospital.Name)
         } else if (num > length(orderedSH$Hospital.Name)) {
             results <- rbind(results, data.frame(state=state,
                                                  hospital=NA))
             next
-        }
+        } else {
+            thisnum <- num
+        } 
         
         results <- rbind(results, data.frame(state=state, 
-                                             hospital=orderedSH[num,]$Hospital.Name))
+                                             hospital=orderedSH[thisnum,]$Hospital.Name))
     }
     return(results)
 }
