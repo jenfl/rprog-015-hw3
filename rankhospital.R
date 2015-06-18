@@ -25,6 +25,7 @@ rankhospital <- function (state, outcome, num="best") {
     } else {
         stop("invalid outcome")
     }
+
  
     ## Subset our data for the given requirements
     st <- subset(measuresCSV, 
@@ -33,4 +34,17 @@ rankhospital <- function (state, outcome, num="best") {
     
     ## Turn mortality value to numeric
     st[[mortalityCol]] <- as.numeric(st[[mortalityCol]])
+    
+    orderedST <- st[order(st[[mortalityCol]], st$Hospital.Name),]
+    
+    ## If num comes in as best or worst, convert it to a value
+    if (num == "best") {
+        num <- 1
+    } else if (num == "worst") {
+        num <- length(orderedST$Hospital.Name)
+    } else if (num > length(orderedST$Hospital.Name)) {
+        return(NA)
+    }
+
+    return (orderedST[num,]$Hospital.Name)
 }
