@@ -30,4 +30,7 @@ rankhospital <- function (state, outcome, num="best") {
     st <- subset(measuresCSV, 
                  measuresCSV$State==state & measuresCSV[[mortalityCol]] != "Not Available", 
                  select = c("Hospital.Name", mortalityCol), drop=FALSE)
+    
+    ## Turn mortality value to numeric
+    st[[mortalityCol]] <- as.numeric(st[[mortalityCol]])
 }
